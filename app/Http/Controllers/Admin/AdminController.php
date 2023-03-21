@@ -124,19 +124,19 @@ class AdminController extends Controller
 		            $currentDate = Carbon::now()->toDateString();
 		            $imageName = $currentDate.'-'.uniqid().'.'.$image->getClientOriginalExtension();
 			            //check admin dir is exists
-			            if (!Storage::disk('public')->exists('vendor_image')) 
+			            if (!Storage::disk('public')->exists('admin_image')) 
 			            {
-			                Storage::disk('public')->makeDirectory('vendor_image');
+			                Storage::disk('public')->makeDirectory('admin_image');
 			            }
 
 			            //delete old admin image
-			            if (Storage::disk('public')->exists('vendor_image/'.Auth::guard('admin')->user()->image))
+			            if (Storage::disk('public')->exists('admin_image/'.Auth::guard('admin')->user()->image))
 			            {
-			                Storage::disk('public')->delete('vendor_image/'.Auth::guard('admin')->user()->image);
+			                Storage::disk('public')->delete('admin_image/'.Auth::guard('admin')->user()->image);
 			            }
 		            //resize image for admin and upload
-		            $img = Image::make($image)->resize(100,100)->save(storage_path('app/public/vendor_image').'/'.$imageName);
-		            Storage::disk('public')->put('vendor_image/'.$imageName,$img);
+		            $img = Image::make($image)->resize(100,100)->save(storage_path('app/public/admin_image').'/'.$imageName);
+		            Storage::disk('public')->put('admin_image/'.$imageName,$img);
 	        	}
 	        	else{
 	        		$imageName = Auth::guard('admin')->user()->image;
@@ -170,19 +170,19 @@ class AdminController extends Controller
 		            $currentDate = Carbon::now()->toDateString();
 		            $imageName = $currentDate.'-'.uniqid().'.'.$image->getClientOriginalExtension();
 			            //check admin dir is exists
-			            if (!Storage::disk('public')->exists('address_proof_image')) 
+			            if (!Storage::disk('public')->exists('admin_image')) 
 			            {
-			                Storage::disk('public')->makeDirectory('address_proof_image');
+			                Storage::disk('public')->makeDirectory('admin_image');
 			            }
 
 			            //delete old admin image
-			            if (Storage::disk('public')->exists('address_proof_image/'.$old_img['address_proof_image']))
+			            if (Storage::disk('public')->exists('admin_image/'.$old_img['address_proof_image']))
 			            {
-			                Storage::disk('public')->delete('address_proof_image/'.$old_img['address_proof_image']);
+			                Storage::disk('public')->delete('admin_image/'.$old_img['address_proof_image']);
 			            }
 		            //resize image for admin and upload
-		            $img = Image::make($image)->resize(100,100)->save(storage_path('app/public/address_proof_image').'/'.$imageName);
-		            Storage::disk('public')->put('address_proof_image/'.$imageName,$img);
+		            $img = Image::make($image)->resize(100,100)->save(storage_path('app/public/admin_image').'/'.$imageName);
+		            Storage::disk('public')->put('admin_image/'.$imageName,$img);
 	        	}
 	        	else{
 	        		$old_img = vendorsBusinessDetails::findorFail($data['id']);
@@ -244,6 +244,29 @@ class AdminController extends Controller
 		//Generate hash password
 		//echo $password = Hash::make('12345'); die;
 		return view('admin.login');
+	}
+
+	public function admins($type=null)
+	{
+		$admins = Admin::query();
+		if (!empty($type)) {
+			$admins = $admins->where('type', $type);
+			$title = ucfirst($type)."s";
+		}else{
+			$title = "All Admins / Subadmins / Vendors";
+		}
+		$admins = $admins->get()->toArray();
+		// dd($admins);
+
+		return view('admin.admins.admins')->with(compact('admins','title'));
+	}
+
+	public function viewVendorDetails($id)
+	{
+		$vendorDetails = Admin::with('vendorPersonal','vendorBusiness','vendorBank')->where('id', $id)->first()->toArray();
+		// dd($vendorDetails);
+
+		return view('admin.admins.view_vendor_details')->with(compact('vendorDetails'));
 	}
 
 	public function logout()

@@ -104,7 +104,7 @@
 	                      <label for="vendor_image">Photo</label>
 	                      <input type="file" class="form-control" id="vendor_image" name="vendor_image" accept = 'image/jpeg , image/jpg, image/gif, image/png, image/svg, image/webp'>
 	                      @if(!empty(Auth::guard('admin')->user()->image))
-	                      	<img src="{{ asset('/storage/vendor_image') }}/{{ Auth::guard('admin')->user()->image  }}" class="img-circle elevation-2" alt="User Image">
+	                      	<img src="{{ asset('/storage/admin_image') }}/{{ Auth::guard('admin')->user()->image  }}" class="img-circle elevation-2" alt="User Image">
 	                      @endif
 	                    </div>
 	                    <button type="submit" class="btn btn-primary mr-2">Submit</button>
@@ -213,7 +213,7 @@
 	                      <label for="address_proof_image">Address Proof Image</label>
 	                      <input type="file" class="form-control" id="address_proof_image" name="address_proof_image" accept = 'image/jpeg , image/jpg, image/gif, image/png, image/svg, image/webp'>
 	                      @if(!empty($vendorDetails['address_proof_image']))
-	                      	<img src="{{ asset('/storage/address_proof_image') }}/{{ $vendorDetails['address_proof_image']  }}" class="img-circle elevation-2" alt="User Image">
+	                      	<img src="{{ asset('/storage/admin_image') }}/{{ $vendorDetails['address_proof_image']  }}" class="img-circle elevation-2" alt="User Image">
 	                      @endif
 	                    </div>
 	                    <button type="submit" class="btn btn-primary mr-2">Submit</button>

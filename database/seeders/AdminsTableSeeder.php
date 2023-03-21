@@ -15,6 +15,8 @@ class AdminsTableSeeder extends Seeder
     public function run()
     {
         $adminRecords = [
+            ['id'=>1, 'name'=>'Admin', 'type'=>'admin','vendor_id'=>1, 'mobile'=>'01912342125', 'email'=>'admin@gmail.com', 'password'=>'$2y$10$UlMYZs65IHSu4pXi026QYucxpt7gIXIRd.iZoJ8F//947o7Cmbfr.', 'image'=>'', 'status'=>1],
+
         	['id'=>2, 'name'=>'John', 'type'=>'vendor','vendor_id'=>1, 'mobile'=>'01912342125', 'email'=>'john@gmail.com', 'password'=>'$2y$10$UlMYZs65IHSu4pXi026QYucxpt7gIXIRd.iZoJ8F//947o7Cmbfr.', 'image'=>'', 'status'=>1],
         ];
 
